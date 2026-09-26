@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Web Calculator</title>
+
+    <link
+        rel="stylesheet"
+        href="estilo.css"
+    >
+
+</head>
+
+
+<body>
+
+<main class="calculator">
+
+    <!-- =================================================
+         TITLE
+         ================================================= -->
+
+    <h1>Web Calculator</h1>
+
+
+    <!-- =================================================
+         INFORMATION FIELD
+         ================================================= -->
+
+    <h2
+        id="info"
+        class="big"
+        title="Information about the number"
+        aria-live="polite"
+    >
+        Information about the number
+    </h2>
+
+
+    <!-- =================================================
+         CALCULATOR
+         ================================================= -->
+
+    <section aria-label="Calculator">
+
+        <h2>Calculator</h2>
+
+
+        <!-- =============================================
+             CALCULATOR DISPLAY
+             ============================================= -->
+
+        <div
+            class="calculator-screen"
+            role="status"
+            aria-live="polite"
+            aria-label="Calculator display"
+        >
+
+            <div
+                id="operationDisplay"
+                class="operation-display"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <!-- =============================================
+             CALCULATOR LAYOUT
+             ============================================= -->
+
+        <div class="calculator-layout">
+
+
+            <!-- =========================================
+                 NUMBERS
+                 ========================================= -->
+
+            <div class="number-area">
+
+                <div
+                    class="number-pad"
+                    role="group"
+                    aria-label="Number buttons"
+                >
+
+                    <!-- ROW 1 -->
+
+                    <button
+                        type="button"
+                        aria-label="Number 1"
+                        onclick="addNumber('1')"
+                    >
+                        1
+                    </button>
+
+                    <button
+                        type="button"
+                        aria-label="Number 2"
+                        onclick="addNumber('2')"
+                    >
+                        2
+                    </button>
+
+                    <button
+                        type="button"
+                        aria-label="Number 3"
+                        onclick="addNumber('3')"
+                    >
+                        3
+                    </button>
+
+                    <button
+                        type="button"
+                        aria-label="Number 4"
+                        onclick="addNumber('4')"
+                    >
+                        4
+                    </button>
+
+
+                    <!-- ROW 2 -->
+
+                    <button
+                        type="button"
+                        aria-label="Number 5"
+                        onclick="addNumber('5')"
+                    >
+                        5
+                    </button>
+
+                    <button
+                        type="button"
+                        aria-label="Number 6"
+                        onclick="addNumber('6')"
+                    >
+                        6
+                    </button>
+
+                    <button
+                        type="button"
+                        aria-label="Number 7"
+                        onclick="addNumber('7')"
+                    >
+                        7
+                    </button>
+
+                    <button
+                        type="button"
+                        aria-label="Number 8"
+                        onclick="addNumber('8')"
+                    >
+                        8
+                    </button>
+
+
+                    <!-- ROW 3 -->
+
+                    <button
+                        type="button"
+                        aria-label="Number 9"
+                        onclick="addNumber('9')"
+                    >
+                        9
+                    </button>
+
+                    <button
+                        type="button"
+                        aria-label="Number 0"
+                        onclick="addNumber('0')"
+                    >
+                        0
+                    </button>
+
+                    <button
+                        type="button"
+                        aria-label="Decimal comma"
+                        onclick="addComma()"
+                    >
+                        ,
+                    </button>
+
+                    <button
+                        type="button"
+                        class="clear-small"
+                        aria-label="Clear calculator"
+                        onclick="clearCalculator()"
+                    >
+                        C
+                    </button>
+
+                </div>
+
+
+                <!-- =========================================
+                     SPECIAL OPERATIONS
+                     ========================================= -->
+
+                <div
+                    class="special-buttons"
+                    role="group"
+                    aria-label="Special operations"
+                >
+
+                    <button
+                        type="button"
+                        aria-label="Absolute value"
+                        onclick="absoluteValue()"
+                    >
+                        Absolute Value |x|
+                    </button>
+
+                    <button
+                        type="button"
+                        aria-label="Factorial"
+                        onclick="factorialOperation()"
+                    >
+                        Factorial n!
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 BASIC OPERATORS
+                 ============================================= -->
+
+            <div
+                class="operation-pad"
+                role="group"
+                aria-label="Arithmetic operators"
+            >
+
+                <button
+                    type="button"
+                    aria-label="Addition"
+                    onclick="storeOperation('+')"
+                >
+                    +
+                </button>
+
+                <button
+                    type="button"
+                    aria-label="Subtraction"
+                    onclick="storeOperation('-')"
+                >
+                    −
+                </button>
+
+                <button
+                    type="button"
+                    aria-label="Multiplication"
+                    onclick="storeOperation('*')"
+                >
+                    ×
+                </button>
+
+                <button
+                    type="button"
+                    aria-label="Division"
+                    onclick="storeOperation('/')"
+                >
+                    ÷
+                </button>
+
+                <button
+                    type="button"
+                    aria-label="Exponentiation"
+                    onclick="storeOperation('^')"
+                >
+                    ^
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =============================================
+             OTHER UNARY OPERATIONS
+             ============================================= -->
+
+        <div
+            class="extra-buttons"
+            role="group"
+            aria-label="Unary operations"
+        >
+
+            <button
+                type="button"
+                aria-label="Square root"
+                onclick="unaryOperation('sqrt')"
+            >
+                √x
+            </button>
+
+            <button
+                type="button"
+                aria-label="Square"
+                onclick="unaryOperation('square')"
+            >
+                x²
+            </button>
+
+            <button
+                type="button"
+                aria-label="Negate number"
+                onclick="unaryOperation('negate')"
+            >
+                -x
+            </button>
+
+        </div>
+
+
+        <!-- =============================================
+             EQUAL BUTTON
+             ============================================= -->
+
+        <button
+            type="button"
+            class="equals-button"
+            aria-label="Calculate result"
+            onclick="calculate()"
+        >
+            =
+        </button>
+
+
+        <!-- =============================================
+             RESULT
+             ============================================= -->
+
+        <div
+            class="result"
+            role="status"
+            aria-live="polite"
+        >
+
+            <span>
+                Result:
+            </span>
+
+            <span id="result">
+                —
+            </span>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
+
+<script>
+
+/* =========================================================
+   GLOBAL VARIABLES
+   ========================================================= */
+
+let firstNumber = null;
+
+let selectedOperator = null;
+
+let currentNumber = "";
+
+
+/* =========================================================
+   ADD NUMBER
+   ========================================================= */
+
+function addNumber(number) {
+
+    currentNumber += number;
+
+    updateDisplay();
+
+}
+
+
+/* =========================================================
+   ADD DECIMAL COMMA
+   ========================================================= */
+
+function addComma() {
+
+    if (!currentNumber.includes(",")) {
+
+        if (currentNumber === "") {
+
+            currentNumber = "0";
+
+        }
+
+        currentNumber += ",";
+
+    }
+
+    updateDisplay();
+
+}
+
+
+/* =========================================================
+   UPDATE DISPLAY
+   ========================================================= */
+
+function updateDisplay() {
+
+    const display =
+        document.getElementById(
+            "operationDisplay"
+        );
+
+
+    if (
+        firstNumber !== null &&
+        selectedOperator !== null
+    ) {
+
+        display.textContent =
+            formatNumber(firstNumber)
+            + " "
+            + getOperatorSymbol(
+                selectedOperator
+            )
+            + " "
+            + currentNumber;
+
+    }
+
+    else {
+
+        display.textContent =
+            currentNumber || "0";
+
+    }
+
+}
+
+
+/* =========================================================
+   STORE OPERATION
+   ========================================================= */
+
+function storeOperation(operator) {
+
+    if (currentNumber === "") {
+
+        updateInfo(
+            "Info: Enter a number first.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    firstNumber =
+        Number(
+            currentNumber.replace(",", ".")
+        );
+
+
+    if (!Number.isFinite(firstNumber)) {
+
+        updateInfo(
+            "Info: Invalid number.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    selectedOperator = operator;
+
+    currentNumber = "";
+
+    updateDisplay();
+
+}
+
+
+/* =========================================================
+   CALCULATE
+   ========================================================= */
+
+function calculate() {
+
+    if (
+        firstNumber === null ||
+        selectedOperator === null
+    ) {
+
+        updateInfo(
+            "Info: Choose a number and an operation first.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if (currentNumber === "") {
+
+        updateInfo(
+            "Info: Enter the second number.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const secondNumber =
+        Number(
+            currentNumber.replace(",", ".")
+        );
+
+
+    if (!Number.isFinite(secondNumber)) {
+
+        updateInfo(
+            "Info: Invalid second number.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    let result;
+
+
+    switch (selectedOperator) {
+
+        case "+":
+
+            result =
+                firstNumber + secondNumber;
+
+            break;
+
+
+        case "-":
+
+            result =
+                firstNumber - secondNumber;
+
+            break;
+
+
+        case "*":
+
+            result =
+                firstNumber * secondNumber;
+
+            break;
+
+
+        case "/":
+
+            if (secondNumber === 0) {
+
+                updateInfo(
+                    "Info: Division by zero is not allowed.",
+                    "error"
+                );
+
+                document.getElementById(
+                    "result"
+                ).textContent =
+                    "Error";
+
+                return;
+
+            }
+
+            result =
+                firstNumber / secondNumber;
+
+            break;
+
+
+        case "^":
+
+            result =
+                Math.pow(
+                    firstNumber,
+                    secondNumber
+                );
+
+            break;
+
+
+        default:
+
+            updateInfo(
+                "Info: Unknown operation.",
+                "error"
+            );
+
+            return;
+    }
+
+
+    if (!Number.isFinite(result)) {
+
+        updateInfo(
+            "Info: The result is not valid.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * Keep the operation visible.
+     *
+     * Example:
+     *
+     * 80 - 9
+     *
+     * The "=" is not shown.
+     */
+
+    document.getElementById(
+        "operationDisplay"
+    ).textContent =
+        formatNumber(firstNumber)
+        + " "
+        + getOperatorSymbol(
+            selectedOperator
+        )
+        + " "
+        + formatNumber(secondNumber);
+
+
+    /*
+     * Show result outside the calculator display.
+     */
+
+    document.getElementById(
+        "result"
+    ).textContent =
+        formatNumber(result);
+
+
+    /*
+     * Update information.
+     */
+
+    updateInformation(result);
+
+
+    /*
+     * Store result for next operation.
+     */
+
+    currentNumber =
+        formatNumber(result);
+
+    firstNumber = null;
+
+    selectedOperator = null;
+
+}
+
+
+/* =========================================================
+   OPERATOR SYMBOLS
+   ========================================================= */
+
+function getOperatorSymbol(operator) {
+
+    switch (operator) {
+
+        case "+":
+
+            return "+";
+
+        case "-":
+
+            return "−";
+
+        case "*":
+
+            return "×";
+
+        case "/":
+
+            return "÷";
+
+        case "^":
+
+            return "^";
+
+        default:
+
+            return operator;
+    }
+
+}
+
+
+/* =========================================================
+   INFORMATION FIELD
+   ========================================================= */
+
+function updateInformation(result) {
+
+    const info =
+        document.getElementById(
+            "info"
+        );
+
+
+    info.className = "big";
+
+
+    if (result < 100) {
+
+        info.textContent =
+            "Info: The result is less than 100";
+
+    }
+
+    else if (
+        result >= 100 &&
+        result <= 200
+    ) {
+
+        info.textContent =
+            "Info: The result is between 100 and 200";
+
+    }
+
+    else {
+
+        info.textContent =
+            "Info: The result is greater than 200";
+
+    }
+
+}
+
+
+/* =========================================================
+   GENERIC INFORMATION MESSAGE
+   ========================================================= */
+
+function updateInfo(message, type = "") {
+
+    const info =
+        document.getElementById(
+            "info"
+        );
+
+
+    info.className = "big";
+
+
+    if (type !== "") {
+
+        info.classList.add(type);
+
+    }
+
+
+    info.textContent = message;
+
+}
+
+
+/* =========================================================
+   UNARY OPERATIONS
+   ========================================================= */
+
+function unaryOperation(operation) {
+
+    if (currentNumber === "") {
+
+        updateInfo(
+            "Info: Enter a number first.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const number =
+        Number(
+            currentNumber.replace(",", ".")
+        );
+
+
+    if (!Number.isFinite(number)) {
+
+        updateInfo(
+            "Info: Invalid number.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    let result;
+
+    let symbol;
+
+
+    switch (operation) {
+
+        case "sqrt":
+
+            if (number < 0) {
+
+                updateInfo(
+                    "Info: Cannot calculate the square root of a negative number.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+            result =
+                Math.sqrt(number);
+
+            symbol = "√";
+
+            break;
+
+
+        case "square":
+
+            result =
+                number * number;
+
+            symbol = "";
+
+            break;
+
+
+        case "negate":
+
+            result =
+                -number;
+
+            symbol = "-";
+
+            break;
+
+
+        default:
+
+            updateInfo(
+                "Info: Unknown operation.",
+                "error"
+            );
+
+            return;
+    }
+
+
+    if (!Number.isFinite(result)) {
+
+        updateInfo(
+            "Info: The result is not valid.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if (operation === "square") {
+
+        document.getElementById(
+            "operationDisplay"
+        ).textContent =
+            formatNumber(number) + "²";
+
+    }
+
+    else {
+
+        document.getElementById(
+            "operationDisplay"
+        ).textContent =
+            symbol +
+            formatNumber(number);
+
+    }
+
+
+    document.getElementById(
+        "result"
+    ).textContent =
+        formatNumber(result);
+
+
+    updateInformation(result);
+
+
+    currentNumber =
+        formatNumber(result);
+
+}
+
+
+/* =========================================================
+   ABSOLUTE VALUE
+   ========================================================= */
+
+function absoluteValue() {
+
+    if (currentNumber === "") {
+
+        updateInfo(
+            "Info: Enter a number first.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const number =
+        Number(
+            currentNumber.replace(",", ".")
+        );
+
+
+    if (!Number.isFinite(number)) {
+
+        updateInfo(
+            "Info: Invalid number.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const result =
+        Math.abs(number);
+
+
+    document.getElementById(
+        "operationDisplay"
+    ).textContent =
+        "|" +
+        formatNumber(number) +
+        "|";
+
+
+    document.getElementById(
+        "result"
+    ).textContent =
+        formatNumber(result);
+
+
+    updateInformation(result);
+
+
+    currentNumber =
+        formatNumber(result);
+
+}
+
+
+/* =========================================================
+   FACTORIAL
+   ========================================================= */
+
+function fact(number) {
+
+    if (
+        number < 0 ||
+        !Number.isInteger(number)
+    ) {
+
+        return null;
+
+    }
+
+
+    let result = 1;
+
+
+    for (
+        let i = 1;
+        i <= number;
+        i++
+    ) {
+
+        result *= i;
+
+    }
+
+
+    return result;
+
+}
+
+
+/* =========================================================
+   FACTORIAL OPERATION
+   ========================================================= */
+
+function factorialOperation() {
+
+    if (currentNumber === "") {
+
+        updateInfo(
+            "Info: Enter a number first.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const number =
+        Number(
+            currentNumber.replace(",", ".")
+        );
+
+
+    if (!Number.isFinite(number)) {
+
+        updateInfo(
+            "Info: Invalid number.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const result =
+        fact(number);
+
+
+    if (result === null) {
+
+        updateInfo(
+            "Info: Factorial requires a non-negative integer.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "operationDisplay"
+    ).textContent =
+        formatNumber(number) + "!";
+
+
+    document.getElementById(
+        "result"
+    ).textContent =
+        formatNumber(result);
+
+
+    updateInformation(result);
+
+
+    currentNumber =
+        formatNumber(result);
+
+}
+
+
+/* =========================================================
+   FORMAT NUMBER
+   ========================================================= */
+
+function formatNumber(number) {
+
+    if (!Number.isFinite(number)) {
+
+        return "Error";
+
+    }
+
+
+    return Number(
+        number.toFixed(10)
+    )
+    .toString()
+    .replace(".", ",");
+
+}
+
+
+/* =========================================================
+   CLEAR
+   ========================================================= */
+
+function clearCalculator() {
+
+    firstNumber = null;
+
+    selectedOperator = null;
+
+    currentNumber = "";
+
+
+    document.getElementById(
+        "operationDisplay"
+    ).textContent =
+        "0";
+
+
+    document.getElementById(
+        "result"
+    ).textContent =
+        "—";
+
+
+    updateInfo(
+        "Information about the number"
+    );
+
+}
+
+
+/* =========================================================
+   KEYBOARD SUPPORT
+   ========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        const key = event.key;
+
+
+        /*
+         * Numbers
+         */
+
+        if (
+            key >= "0" &&
+            key <= "9"
+        ) {
+
+            addNumber(key);
+
+            highlightButton(key);
+
+            return;
+        }
+
+
+        /*
+         * Decimal separator
+         */
+
+        if (
+            key === "." ||
+            key === ","
+        ) {
+
+            addComma();
+
+            return;
+        }
+
+
+        /*
+         * Operators
+         */
+
+        if (
+            key === "+" ||
+            key === "-" ||
+            key === "*" ||
+            key === "/" ||
+            key === "^"
+        ) {
+
+            storeOperation(key);
+
+            return;
+        }
+
+
+        /*
+         * Enter or =
+         */
+
+        if (
+            key === "Enter" ||
+            key === "="
+        ) {
+
+            event.preventDefault();
+
+            calculate();
+
+            return;
+        }
+
+
+        /*
+         * Escape or Delete
+         */
+
+        if (
+            key === "Escape" ||
+            key === "Delete"
+        ) {
+
+            clearCalculator();
+
+            return;
+        }
+
+
+        /*
+         * Backspace
+         */
+
+        if (key === "Backspace") {
+
+            currentNumber =
+                currentNumber.slice(
+                    0,
+                    -1
+                );
+
+            updateDisplay();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   HIGHLIGHT RECENTLY PRESSED BUTTON
+   ========================================================= */
+
+function highlightButton(value) {
+
+    const buttons =
+        document.querySelectorAll(
+            ".number-pad button"
+        );
+
+
+    buttons.forEach(
+        function(button) {
+
+            if (
+                button.textContent.trim()
+                === value
+            ) {
+
+                button.classList.add(
+                    "active"
+                );
+
+
+                setTimeout(
+                    function() {
+
+                        button.classList.remove(
+                            "active"
+                        );
+
+                    },
+                    150
+                );
+
+            }
+
+        }
+    );
+
+}
+
+</script>
+
+</body>
+
+</html>
