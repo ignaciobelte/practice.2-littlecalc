@@ -14,19 +14,14 @@ html {
 
 body {
     font-family: Arial, Helvetica, sans-serif;
-
-    background:
-        linear-gradient(
-            135deg,
-            #eef7ff 0%,
-            #dcecf8 50%,
-            #f4f8fb 100%
-        );
-
+    background: linear-gradient(
+        135deg,
+        #eef7ff 0%,
+        #dcecf8 50%,
+        #f4f8fb 100%
+    );
     color: #333;
-
     min-height: 100vh;
-
     padding: 50px 20px;
 }
 
@@ -38,23 +33,15 @@ body {
 .calculator {
     width: 90%;
     max-width: 900px;
-
     margin: 0 auto;
-
     padding: 45px 40px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #ffffff,
-            #eef7ff
-        );
-
+    background: linear-gradient(
+        135deg,
+        #ffffff,
+        #eef7ff
+    );
     border-radius: 24px;
-
-    box-shadow:
-        0 10px 30px
-        rgba(0, 0, 0, 0.12);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 }
 
 
@@ -64,13 +51,9 @@ body {
 
 h1 {
     text-align: center;
-
     margin-bottom: 30px;
-
     color: #1f3c5a;
-
     font-size: 40px;
-
     line-height: 1.2;
 }
 
@@ -81,54 +64,41 @@ h1 {
 
 .big {
     position: relative;
-
     margin-bottom: 30px;
-
     padding: 22px 25px;
-
     background: #ffffff;
-
     border: 1px solid #dce9f3;
-
     border-radius: 18px;
-
-    box-shadow:
-        0 7px 20px
-        rgba(0, 0, 0, 0.10);
-
+    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.10);
     color: #1f3c5a;
-
     font-size: 18px;
-
     line-height: 1.6;
+    transition: all 0.3s ease;
 }
-
-
-/*
-   Blue decorative line at the top.
-*/
 
 .big::before {
     content: "";
-
     position: absolute;
-
     top: 0;
     left: 0;
-
     width: 100%;
-
     height: 6px;
+    background: linear-gradient(
+        90deg,
+        #2374ab,
+        #66b3ff
+    );
+    border-radius: 18px 18px 0 0;
+}
 
-    background:
-        linear-gradient(
-            90deg,
-            #2374ab,
-            #66b3ff
-        );
+.big.error {
+    background: #fff0f0;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
 
-    border-radius:
-        18px 18px 0 0;
+.big.error::before {
+    background: #dc3545;
 }
 
 
@@ -138,51 +108,30 @@ h1 {
 
 section {
     position: relative;
-
     padding: 30px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #ffffff,
-            #f3f8fc
-        );
-
+    background: linear-gradient(
+        145deg,
+        #ffffff,
+        #f3f8fc
+    );
     border: 1px solid #dce9f3;
-
     border-radius: 22px;
-
-    box-shadow:
-        0 8px 24px
-        rgba(31, 60, 90, 0.12);
+    box-shadow: 0 8px 24px rgba(31, 60, 90, 0.12);
 }
-
-
-/*
-   Decorative blue line.
-*/
 
 section::before {
     content: "";
-
     position: absolute;
-
     top: 0;
     left: 0;
-
     width: 100%;
-
     height: 7px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #2374ab,
-            #66b3ff
-        );
-
-    border-radius:
-        22px 22px 0 0;
+    background: linear-gradient(
+        90deg,
+        #2374ab,
+        #66b3ff
+    );
+    border-radius: 22px 22px 0 0;
 }
 
 
@@ -192,11 +141,8 @@ section::before {
 
 section h2 {
     text-align: center;
-
     margin-bottom: 25px;
-
     color: #2374ab;
-
     font-size: 28px;
 }
 
@@ -207,30 +153,17 @@ section h2 {
 
 .calculator-screen {
     width: 100%;
-
     min-height: 90px;
-
     padding: 20px 25px;
-
     margin-bottom: 20px;
-
     display: flex;
-
     align-items: center;
-
     justify-content: flex-end;
-
     overflow-x: auto;
-
     background: #1f3c5a;
-
     border-radius: 14px;
-
     border: 3px solid #173049;
-
-    box-shadow:
-        inset 0 2px 8px
-        rgba(0, 0, 0, 0.25);
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 
@@ -240,13 +173,9 @@ section h2 {
 
 .operation-display {
     color: #ffffff;
-
     font-size: 32px;
-
     font-weight: bold;
-
     white-space: nowrap;
-
     letter-spacing: 1px;
 }
 
@@ -257,12 +186,8 @@ section h2 {
 
 .calculator-layout {
     display: grid;
-
-    grid-template-columns:
-        3fr 1fr;
-
+    grid-template-columns: 3fr 1fr;
     gap: 15px;
-
     align-items: stretch;
 }
 
@@ -273,9 +198,7 @@ section h2 {
 
 .number-area {
     display: flex;
-
     flex-direction: column;
-
     gap: 15px;
 }
 
@@ -286,10 +209,7 @@ section h2 {
 
 .number-pad {
     display: grid;
-
-    grid-template-columns:
-        repeat(4, 1fr);
-
+    grid-template-columns: repeat(3, 1fr);
     gap: 12px;
 }
 
@@ -299,20 +219,19 @@ section h2 {
    ========================================================= */
 
 button {
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
+    font-family: Arial, Helvetica, sans-serif;
     cursor: pointer;
-
     border: none;
-
     transition:
         background-color 0.25s ease,
         color 0.25s ease,
         transform 0.25s ease,
         box-shadow 0.25s ease;
+}
+
+button:focus-visible {
+    outline: 3px solid #2374ab;
+    outline-offset: 3px;
 }
 
 
@@ -322,46 +241,26 @@ button {
 
 .number-pad button {
     height: 62px;
-
     background: #ffffff;
-
     color: #1f3c5a;
-
-    border:
-        2px solid #dce9f3;
-
+    border: 2px solid #dce9f3;
     border-radius: 14px;
-
     font-size: 20px;
-
     font-weight: bold;
-
-    box-shadow:
-        0 3px 10px
-        rgba(31, 60, 90, 0.08);
+    box-shadow: 0 3px 10px rgba(31, 60, 90, 0.08);
 }
 
-
-.number-pad button:hover {
+.number-pad button:hover,
+.number-pad button.active {
     background: #eef7ff;
-
     color: #2374ab;
-
     border-color: #66b3ff;
-
-    transform:
-        translateY(-3px);
-
-    box-shadow:
-        0 7px 16px
-        rgba(35, 116, 171, 0.18);
+    transform: translateY(-3px);
+    box-shadow: 0 7px 16px rgba(35, 116, 171, 0.18);
 }
-
 
 .number-pad button:active {
-    transform:
-        translateY(0)
-        scale(0.96);
+    transform: translateY(0) scale(0.96);
 }
 
 
@@ -371,18 +270,13 @@ button {
 
 .number-pad .clear-small {
     background: #fff1f1;
-
     color: #c0392b;
-
     border-color: #f2c5c5;
 }
 
-
 .number-pad .clear-small:hover {
     background: #c0392b;
-
     color: #ffffff;
-
     border-color: #c0392b;
 }
 
@@ -393,53 +287,89 @@ button {
 
 .operation-pad {
     display: grid;
-
     grid-template-columns: 1fr;
-
     gap: 12px;
 }
 
-
 .operation-pad button {
-    min-height: 62px;
-
+    min-height: 52px;
     background: #2374ab;
-
     color: #ffffff;
-
-    border:
-        2px solid #2374ab;
-
+    border: 2px solid #2374ab;
     border-radius: 14px;
-
     font-size: 24px;
-
     font-weight: bold;
-
-    box-shadow:
-        0 5px 14px
-        rgba(35, 116, 171, 0.25);
+    box-shadow: 0 5px 14px rgba(35, 116, 171, 0.25);
 }
-
 
 .operation-pad button:hover {
     background: #ffffff;
-
     color: #2374ab;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(35, 116, 171, 0.25);
+}
 
-    transform:
-        translateY(-3px);
-
-    box-shadow:
-        0 8px 20px
-        rgba(35, 116, 171, 0.25);
+.operation-pad button:active {
+    transform: translateY(0) scale(0.96);
 }
 
 
-.operation-pad button:active {
-    transform:
-        translateY(0)
-        scale(0.96);
+/* =========================================================
+   ARBITRARY POWER FIELD (x^y)
+   ========================================================= */
+
+.power-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: #ffffff;
+    padding: 12px 16px;
+    border: 2px solid #dce9f3;
+    border-radius: 16px;
+}
+
+.power-field-group label {
+    font-size: 13px;
+    font-weight: bold;
+    color: #1f3c5a;
+}
+
+.power-input-row {
+    display: flex;
+    gap: 10px;
+}
+
+.power-input-row input {
+    flex: 1;
+    height: 48px;
+    padding: 0 14px;
+    border: 2px solid #66b3ff;
+    border-radius: 12px;
+    font-size: 16px;
+    color: #1f3c5a;
+    outline: none;
+}
+
+.power-input-row input:focus {
+    border-color: #2374ab;
+    box-shadow: 0 0 0 3px rgba(35, 116, 171, 0.15);
+}
+
+.power-btn {
+    height: 48px;
+    padding: 0 20px;
+    background: #2374ab;
+    color: #ffffff;
+    border: 2px solid #2374ab;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.power-btn:hover {
+    background: #ffffff;
+    color: #2374ab;
+    transform: translateY(-2px);
 }
 
 
@@ -449,500 +379,176 @@ button {
 
 .special-buttons {
     display: grid;
-
-    grid-template-columns:
-        repeat(2, 1fr);
-
+    grid-template-columns: repeat(2, 1fr);
     gap: 15px;
-
-    margin-top: 20px;
+    margin-top: 5px;
 }
-
 
 .special-buttons button {
-    min-height: 85px;
-
-    padding: 15px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #ffffff,
-            #eef7ff
-        );
-
+    min-height: 60px;
+    padding: 10px;
+    background: linear-gradient(
+        135deg,
+        #ffffff,
+        #eef7ff
+    );
     color: #2374ab;
-
-    border:
-        2px solid #66b3ff;
-
+    border: 2px solid #66b3ff;
     border-radius: 18px;
-
-    font-size: 16px;
-
+    font-size: 15px;
     font-weight: bold;
-
-    box-shadow:
-        0 5px 15px
-        rgba(35, 116, 171, 0.12);
+    box-shadow: 0 5px 15px rgba(35, 116, 171, 0.12);
 }
-
 
 .special-buttons button:hover {
     background: #2374ab;
-
     color: #ffffff;
-
-    transform:
-        translateY(-5px);
-
-    box-shadow:
-        0 10px 25px
-        rgba(35, 116, 171, 0.25);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(35, 116, 171, 0.25);
 }
 
 
 /* =========================================================
-   EXTRA UNARY OPERATIONS
+   EXTRA UNARY OPERATIONS (√x, x², x³, ±x)
    ========================================================= */
 
 .extra-buttons {
     display: grid;
-
-    grid-template-columns:
-        repeat(3, 1fr);
-
-    gap: 12px;
-
-    margin-top: 18px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 5px;
 }
-
 
 .extra-buttons button {
     height: 52px;
-
     background: #ffffff;
-
     color: #2374ab;
-
-    border:
-        2px solid #2374ab;
-
+    border: 2px solid #2374ab;
     border-radius: 25px;
-
     font-size: 15px;
-
     font-weight: bold;
 }
 
-
 .extra-buttons button:hover {
     background: #2374ab;
-
     color: #ffffff;
-
-    transform:
-        translateY(-2px);
+    transform: translateY(-2px);
 }
 
 
 /* =========================================================
-   EQUAL BUTTON
+   EQUAL BUTTON & RESULT
    ========================================================= */
 
 .equals-button {
     width: 100%;
-
     height: 70px;
-
-    margin-top: 18px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #2374ab,
-            #66b3ff
-        );
-
+    margin-top: 10px;
+    background: linear-gradient(
+        135deg,
+        #2374ab,
+        #66b3ff
+    );
     color: #ffffff;
-
-    border:
-        2px solid #2374ab;
-
+    border: 2px solid #2374ab;
     border-radius: 30px;
-
     font-size: 28px;
-
     font-weight: bold;
-
-    box-shadow:
-        0 5px 14px
-        rgba(35, 116, 171, 0.3);
+    box-shadow: 0 5px 14px rgba(35, 116, 171, 0.3);
 }
-
 
 .equals-button:hover {
     background: #ffffff;
-
     color: #2374ab;
-
-    transform:
-        translateY(-3px);
-
-    box-shadow:
-        0 8px 20px
-        rgba(35, 116, 171, 0.4);
+    transform: translateY(-2px);
 }
-
-
-.equals-button:active {
-    transform:
-        translateY(0)
-        scale(0.98);
-}
-
-
-/* =========================================================
-   RESULT BOX
-   ========================================================= */
 
 .result {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 20px;
-
-    min-height: 70px;
-
     margin-top: 20px;
-
-    padding: 18px 22px;
-
-    background: #f4f8fb;
-
-    border-left:
-        5px solid #66b3ff;
-
+    padding: 15px 20px;
+    background: #eef7ff;
+    border: 2px solid #2374ab;
     border-radius: 14px;
-
-    color: #444;
-
-    font-size: 17px;
-
-    box-shadow:
-        0 3px 10px
-        rgba(0, 0, 0, 0.06);
-}
-
-
-.result span:first-child {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
     font-weight: bold;
-
     color: #1f3c5a;
 }
 
 
-.result span:last-child {
-    color: #2374ab;
+/* =========================================================
+   CSV SECTION
+   ========================================================= */
 
-    font-size: 24px;
+.csv-section {
+    margin-top: 35px;
+    padding-top: 25px;
+    border-top: 2px dashed #dce9f3;
+}
 
+.csv-title {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #1f3c5a;
+}
+
+.csv-upload {
+    padding: 12px 24px;
+    background: #2374ab;
+    color: #fff;
+    border-radius: 12px;
     font-weight: bold;
-
-    word-break: break-word;
 }
 
-
-/* =========================================================
-   KEYBOARD ACCESSIBILITY
-   ========================================================= */
-
-/*
-   Visible focus indicator for keyboard users.
-*/
-
-button:focus-visible {
-    outline:
-        3px solid #ffb703;
-
-    outline-offset:
-        3px;
+.csv-upload:hover {
+    background: #173049;
 }
 
-
-/*
-   This also applies to other interactive elements.
-*/
-
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
-    outline:
-        3px solid #66b3ff;
-
-    outline-offset:
-        2px;
+.csv-file-name {
+    margin: 10px 0;
+    font-size: 14px;
+    color: #666;
 }
 
-
-/* =========================================================
-   BUTTON PRESSED STATE
-   ========================================================= */
-
-button.active {
-    background: #1f3c5a !important;
-
-    color: #ffffff !important;
-
-    border-color: #1f3c5a !important;
-
-    transform:
-        scale(0.95);
+.csv-operations {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
 }
 
-
-/* =========================================================
-   INFORMATION STATES
-   ========================================================= */
-
-.big.success {
-    background: #eefaf2;
-
-    color: #237a45;
-
-    border-color: #b9e4c8;
+.csv-operation {
+    padding: 10px 18px;
+    background: #ffffff;
+    color: #2374ab;
+    border: 2px solid #66b3ff;
+    border-radius: 12px;
+    font-weight: bold;
 }
 
-
-.big.error {
-    background: #fff1f1;
-
-    color: #a83232;
-
-    border-color: #f0c1c1;
+.csv-operation:hover {
+    background: #2374ab;
+    color: #ffffff;
 }
 
-
-/* =========================================================
-   LOADING ANIMATION
-   ========================================================= */
-
-.loading {
-    display: inline-block;
-
-    width: 18px;
-
-    height: 18px;
-
-    margin-left: 8px;
-
-    border:
-        3px solid #dce9f3;
-
-    border-top-color:
-        #2374ab;
-
-    border-radius: 50%;
-
-    animation:
-        spin 0.8s linear infinite;
+.csv-result {
+    margin-top: 15px;
+    padding: 12px 16px;
+    background: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #dce9f3;
+    font-weight: bold;
 }
 
-
-@keyframes spin {
-
-    to {
-        transform:
-            rotate(360deg);
-    }
+.csv-result.error {
+    color: #dc3545;
+    border-color: #f5c6cb;
+    background: #fff0f0;
 }
 
-
-/* =========================================================
-   RESPONSIVE DESIGN
-   ========================================================= */
-
-@media (max-width: 768px) {
-
-    body {
-        padding: 30px 15px;
-    }
-
-
-    .calculator {
-        width: 100%;
-
-        padding: 30px 20px;
-    }
-
-
-    h1 {
-        font-size: 32px;
-    }
-
-
-    section {
-        padding: 20px;
-    }
-
-
-    .calculator-layout {
-        grid-template-columns:
-            1fr;
-    }
-
-
-    .operation-pad {
-        grid-template-columns:
-            repeat(5, 1fr);
-    }
-
-
-    .operation-pad button {
-        min-height: 55px;
-    }
-
-
-    .number-pad button {
-        height: 55px;
-    }
-}
-
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 500px) {
-
-    body {
-        padding: 15px 8px;
-    }
-
-
-    .calculator {
-        padding: 25px 15px;
-
-        border-radius: 18px;
-    }
-
-
-    h1 {
-        font-size: 28px;
-    }
-
-
-    .big {
-        font-size: 15px;
-
-        padding: 18px;
-    }
-
-
-    section {
-        padding: 18px;
-    }
-
-
-    section h2 {
-        font-size: 23px;
-    }
-
-
-    .calculator-screen {
-        min-height: 70px;
-
-        padding: 15px;
-    }
-
-
-    .operation-display {
-        font-size: 23px;
-    }
-
-
-    .number-pad {
-        gap: 7px;
-    }
-
-
-    .number-pad button {
-        height: 50px;
-
-        font-size: 17px;
-    }
-
-
-    .operation-pad {
-        gap: 7px;
-    }
-
-
-    .operation-pad button {
-        min-height: 50px;
-
-        font-size: 19px;
-    }
-
-
-    .special-buttons {
-        grid-template-columns:
-            1fr;
-
-        gap: 10px;
-    }
-
-
-    .special-buttons button {
-        min-height: 65px;
-    }
-
-
-    .extra-buttons {
-        gap: 7px;
-    }
-
-
-    .extra-buttons button {
-        height: 48px;
-
-        font-size: 13px;
-    }
-
-
-    .equals-button {
-        height: 60px;
-
-        font-size: 25px;
-    }
-
-
-    .result {
-        flex-direction: column;
-
-        align-items: flex-start;
-
-        gap: 8px;
-    }
-}
-
-
-/* =========================================================
-   REDUCED MOTION ACCESSIBILITY
-   ========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-
-    *,
-    *::before,
-    *::after {
-        animation: none !important;
-
-        transition: none !important;
-
-        scroll-behavior: auto !important;
-    }
+.csv-result.success {
+    color: #28a745;
+    border-color: #c3e6cb;
+    background: #f4fff6;
 }

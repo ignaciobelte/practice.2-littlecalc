@@ -1,1326 +1,1420 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Little Calculator</title>
+    <style>
+        /* =========================================================
+           GENERAL
+           ========================================================= */
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    <title>Web Calculator</title>
+        html {
+            scroll-behavior: smooth;
+        }
 
-    <link
-        rel="stylesheet"
-        href="estilo.css"
-    >
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(
+                135deg,
+                #eef7ff 0%,
+                #dcecf8 50%,
+                #f4f8fb 100%
+            );
+            color: #333;
+            min-height: 100vh;
+            padding: 50px 20px;
+        }
 
+
+        /* =========================================================
+           MAIN CONTAINER
+           ========================================================= */
+
+        .calculator {
+            width: 90%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 45px 40px;
+            background: linear-gradient(
+                135deg,
+                #ffffff,
+                #eef7ff
+            );
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        }
+
+
+        /* =========================================================
+           MAIN TITLE
+           ========================================================= */
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #1f3c5a;
+            font-size: 40px;
+            line-height: 1.2;
+        }
+
+
+        /* =========================================================
+           INFORMATION FIELD
+           ========================================================= */
+
+        .big {
+            position: relative;
+            margin-bottom: 30px;
+            padding: 22px 25px;
+            background: #ffffff;
+            border: 1px solid #dce9f3;
+            border-radius: 18px;
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.10);
+            color: #1f3c5a;
+            font-size: 18px;
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+
+        .big::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(
+                90deg,
+                #2374ab,
+                #66b3ff
+            );
+            border-radius: 18px 18px 0 0;
+        }
+
+        .big.error {
+            background: #fff0f0;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+
+        .big.error::before {
+            background: #dc3545;
+        }
+
+
+        /* =========================================================
+           CALCULATOR SECTION
+           ========================================================= */
+
+        section {
+            position: relative;
+            padding: 30px;
+            background: linear-gradient(
+                145deg,
+                #ffffff,
+                #f3f8fc
+            );
+            border: 1px solid #dce9f3;
+            border-radius: 22px;
+            box-shadow: 0 8px 24px rgba(31, 60, 90, 0.12);
+        }
+
+        section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 7px;
+            background: linear-gradient(
+                90deg,
+                #2374ab,
+                #66b3ff
+            );
+            border-radius: 22px 22px 0 0;
+        }
+
+
+        /* =========================================================
+           SECTION TITLE
+           ========================================================= */
+
+        section h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #2374ab;
+            font-size: 28px;
+        }
+
+
+        /* =========================================================
+           CALCULATOR DISPLAY
+           ========================================================= */
+
+        .calculator-screen {
+            width: 100%;
+            min-height: 90px;
+            padding: 20px 25px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            overflow-x: auto;
+            background: #1f3c5a;
+            border-radius: 14px;
+            border: 3px solid #173049;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.25);
+        }
+
+
+        /* =========================================================
+           OPERATION DISPLAY
+           ========================================================= */
+
+        .operation-display {
+            color: #ffffff;
+            font-size: 32px;
+            font-weight: bold;
+            white-space: nowrap;
+            letter-spacing: 1px;
+        }
+
+
+        /* =========================================================
+           CALCULATOR LAYOUT
+           ========================================================= */
+
+        .calculator-layout {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 15px;
+            align-items: stretch;
+        }
+
+
+        /* =========================================================
+           NUMBER AREA
+           ========================================================= */
+
+        .number-area {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+
+        /* =========================================================
+           NUMBER PAD
+           ========================================================= */
+
+        .number-pad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+
+        /* =========================================================
+           GENERAL BUTTON
+           ========================================================= */
+
+        button {
+            font-family: Arial, Helvetica, sans-serif;
+            cursor: pointer;
+            border: none;
+            transition:
+                background-color 0.25s ease,
+                color 0.25s ease,
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+        button:focus-visible {
+            outline: 3px solid #2374ab;
+            outline-offset: 3px;
+        }
+
+
+        /* =========================================================
+           NUMBER BUTTONS
+           ========================================================= */
+
+        .number-pad button {
+            height: 62px;
+            background: #ffffff;
+            color: #1f3c5a;
+            border: 2px solid #dce9f3;
+            border-radius: 14px;
+            font-size: 20px;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(31, 60, 90, 0.08);
+        }
+
+        .number-pad button:hover,
+        .number-pad button.active {
+            background: #eef7ff;
+            color: #2374ab;
+            border-color: #66b3ff;
+            transform: translateY(-3px);
+            box-shadow: 0 7px 16px rgba(35, 116, 171, 0.18);
+        }
+
+        .number-pad button:active {
+            transform: translateY(0) scale(0.96);
+        }
+
+
+        /* =========================================================
+           CLEAR BUTTON
+           ========================================================= */
+
+        .number-pad .clear-small {
+            background: #fff1f1;
+            color: #c0392b;
+            border-color: #f2c5c5;
+        }
+
+        .number-pad .clear-small:hover {
+            background: #c0392b;
+            color: #ffffff;
+            border-color: #c0392b;
+        }
+
+
+        /* =========================================================
+           OPERATION BUTTONS
+           ========================================================= */
+
+        .operation-pad {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .operation-pad button {
+            min-height: 52px;
+            background: #2374ab;
+            color: #ffffff;
+            border: 2px solid #2374ab;
+            border-radius: 14px;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 5px 14px rgba(35, 116, 171, 0.25);
+        }
+
+        .operation-pad button:hover {
+            background: #ffffff;
+            color: #2374ab;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(35, 116, 171, 0.25);
+        }
+
+        .operation-pad button:active {
+            transform: translateY(0) scale(0.96);
+        }
+
+
+        /* =========================================================
+           ARBITRARY POWER FIELD (x^y)
+           ========================================================= */
+
+        .power-field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            background: #ffffff;
+            padding: 12px 16px;
+            border: 2px solid #dce9f3;
+            border-radius: 16px;
+        }
+
+        .power-field-group label {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1f3c5a;
+        }
+
+        .power-input-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .power-input-row input {
+            flex: 1;
+            height: 48px;
+            padding: 0 14px;
+            border: 2px solid #66b3ff;
+            border-radius: 12px;
+            font-size: 16px;
+            color: #1f3c5a;
+            outline: none;
+        }
+
+        .power-input-row input:focus {
+            border-color: #2374ab;
+            box-shadow: 0 0 0 3px rgba(35, 116, 171, 0.15);
+        }
+
+        .power-btn {
+            height: 48px;
+            padding: 0 20px;
+            background: #2374ab;
+            color: #ffffff;
+            border: 2px solid #2374ab;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .power-btn:hover {
+            background: #ffffff;
+            color: #2374ab;
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================================================
+           SPECIAL OPERATIONS
+           ========================================================= */
+
+        .special-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 5px;
+        }
+
+        .special-buttons button {
+            min-height: 60px;
+            padding: 10px;
+            background: linear-gradient(
+                135deg,
+                #ffffff,
+                #eef7ff
+            );
+            color: #2374ab;
+            border: 2px solid #66b3ff;
+            border-radius: 18px;
+            font-size: 15px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(35, 116, 171, 0.12);
+        }
+
+        .special-buttons button:hover {
+            background: #2374ab;
+            color: #ffffff;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(35, 116, 171, 0.25);
+        }
+
+
+        /* =========================================================
+           EXTRA UNARY OPERATIONS (√x, x², x³, ±x)
+           ========================================================= */
+
+        .extra-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .extra-buttons button {
+            height: 52px;
+            background: #ffffff;
+            color: #2374ab;
+            border: 2px solid #2374ab;
+            border-radius: 25px;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .extra-buttons button:hover {
+            background: #2374ab;
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================================================
+           EQUAL BUTTON & RESULT
+           ========================================================= */
+
+        .equals-button {
+            width: 100%;
+            height: 70px;
+            margin-top: 10px;
+            background: linear-gradient(
+                135deg,
+                #2374ab,
+                #66b3ff
+            );
+            color: #ffffff;
+            border: 2px solid #2374ab;
+            border-radius: 30px;
+            font-size: 28px;
+            font-weight: bold;
+            box-shadow: 0 5px 14px rgba(35, 116, 171, 0.3);
+        }
+
+        .equals-button:hover {
+            background: #ffffff;
+            color: #2374ab;
+            transform: translateY(-2px);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px 20px;
+            background: #eef7ff;
+            border: 2px solid #2374ab;
+            border-radius: 14px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 20px;
+            font-weight: bold;
+            color: #1f3c5a;
+        }
+
+
+        /* =========================================================
+           CSV SECTION
+           ========================================================= */
+
+        .csv-section {
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 2px dashed #dce9f3;
+        }
+
+        .csv-title {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #1f3c5a;
+        }
+
+        .csv-upload {
+            padding: 12px 24px;
+            background: #2374ab;
+            color: #fff;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+
+        .csv-upload:hover {
+            background: #173049;
+        }
+
+        .csv-file-name {
+            margin: 10px 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .csv-operations {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .csv-operation {
+            padding: 10px 18px;
+            background: #ffffff;
+            color: #2374ab;
+            border: 2px solid #66b3ff;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+
+        .csv-operation:hover {
+            background: #2374ab;
+            color: #ffffff;
+        }
+
+        /* CSV REMOVE SECTION */
+        .csv-remove-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 15px;
+            padding: 14px;
+            background: #ffffff;
+            border: 1px solid #dce9f3;
+            border-radius: 14px;
+        }
+
+        .csv-remove-group label {
+            font-size: 13px;
+            font-weight: bold;
+            color: #1f3c5a;
+        }
+
+        .csv-remove-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .csv-remove-row input {
+            flex: 1;
+            min-width: 160px;
+            height: 42px;
+            padding: 0 12px;
+            border: 2px solid #66b3ff;
+            border-radius: 10px;
+            font-size: 15px;
+            color: #1f3c5a;
+            outline: none;
+        }
+
+        .csv-remove-row input:focus {
+            border-color: #2374ab;
+            box-shadow: 0 0 0 3px rgba(35, 116, 171, 0.15);
+        }
+
+        .csv-remove-btn {
+            padding: 0 16px;
+            height: 42px;
+            background: #fff1f1;
+            color: #c0392b;
+            border: 2px solid #f2c5c5;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .csv-remove-btn:hover {
+            background: #c0392b;
+            color: #ffffff;
+            border-color: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .csv-result {
+            margin-top: 15px;
+            padding: 12px 16px;
+            background: #ffffff;
+            border-radius: 10px;
+            border: 1px solid #dce9f3;
+            font-weight: bold;
+        }
+
+        .csv-result.error {
+            color: #dc3545;
+            border-color: #f5c6cb;
+            background: #fff0f0;
+        }
+
+        .csv-result.success {
+            color: #28a745;
+            border-color: #c3e6cb;
+            background: #f4fff6;
+        }
+
+        /* =========================================================
+           ERROR LOGGING & ANALYSIS SECTION
+           ========================================================= */
+
+        .log-section {
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 2px dashed #dce9f3;
+        }
+
+        .log-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .log-title {
+            font-size: 22px;
+            color: #1f3c5a;
+        }
+
+        .log-badge {
+            background: #dc3545;
+            color: #ffffff;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .log-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-download-log {
+            padding: 10px 18px;
+            background: #28a745;
+            color: #ffffff;
+            border-radius: 12px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-download-log:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .btn-toggle-log {
+            padding: 10px 18px;
+            background: #1f3c5a;
+            color: #ffffff;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+
+        .btn-toggle-log:hover {
+            background: #173049;
+            transform: translateY(-2px);
+        }
+
+        .btn-clear-log {
+            padding: 10px 18px;
+            background: #fff1f1;
+            color: #c0392b;
+            border: 1px solid #f2c5c5;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+
+        .btn-clear-log:hover {
+            background: #c0392b;
+            color: #ffffff;
+        }
+
+        .log-viewer {
+            display: none;
+            margin-top: 15px;
+            max-height: 250px;
+            overflow-y: auto;
+            background: #1e1e1e;
+            color: #00ff66;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.5);
+            line-height: 1.5;
+        }
+
+        .log-entry {
+            margin-bottom: 6px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 4px;
+        }
+
+        .log-entry:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .log-time {
+            color: #888;
+        }
+
+        .log-cat {
+            color: #ffcc00;
+            font-weight: bold;
+        }
+    </style>
 </head>
-
-
 <body>
 
 <main class="calculator">
 
-    <!-- =================================================
-         TITLE
-         ================================================= -->
+    <h1>Little Calculator</h1>
 
-    <h1>Web Calculator</h1>
-
-
-    <!-- =================================================
-         INFORMATION FIELD
-         ================================================= -->
-
-    <h2
-        id="info"
-        class="big"
-        title="Information about the number"
-        aria-live="polite"
-    >
+    <!-- INFORMATION FIELD ABOUT RESULTS AND ERRORS -->
+    <h2 id="info" class="big" title="Information about the number" aria-live="polite">
         Information about the number
     </h2>
 
+    <section aria-labelledby="calc-heading">
+        <h2 id="calc-heading">Calculator</h2>
 
-    <!-- =================================================
-         CALCULATOR
-         ================================================= -->
-
-    <section aria-label="Calculator">
-
-        <h2>Calculator</h2>
-
-
-        <!-- =============================================
-             CALCULATOR DISPLAY
-             ============================================= -->
-
-        <div
-            class="calculator-screen"
-            role="status"
-            aria-live="polite"
-            aria-label="Calculator display"
-        >
-
-            <div
-                id="operationDisplay"
-                class="operation-display"
-            >
-                0
-            </div>
-
+        <div class="calculator-screen" role="status" aria-live="polite" aria-label="Calculator display">
+            <div id="operationDisplay" class="operation-display">0</div>
         </div>
-
-
-        <!-- =============================================
-             CALCULATOR LAYOUT
-             ============================================= -->
 
         <div class="calculator-layout">
-
-
-            <!-- =========================================
-                 NUMBERS
-                 ========================================= -->
-
             <div class="number-area">
+                <!-- NUMBERS IN ORDER (1-9, C, 0, ., ,) -->
+                <div class="number-pad" role="group" aria-label="Number buttons">
+                    <button type="button" onclick="appendNumber('1')">1</button>
+                    <button type="button" onclick="appendNumber('2')">2</button>
+                    <button type="button" onclick="appendNumber('3')">3</button>
 
-                <div
-                    class="number-pad"
-                    role="group"
-                    aria-label="Number buttons"
-                >
+                    <button type="button" onclick="appendNumber('4')">4</button>
+                    <button type="button" onclick="appendNumber('5')">5</button>
+                    <button type="button" onclick="appendNumber('6')">6</button>
 
-                    <!-- ROW 1 -->
+                    <button type="button" onclick="appendNumber('7')">7</button>
+                    <button type="button" onclick="appendNumber('8')">8</button>
+                    <button type="button" onclick="appendNumber('9')">9</button>
 
-                    <button
-                        type="button"
-                        aria-label="Number 1"
-                        onclick="addNumber('1')"
-                    >
-                        1
-                    </button>
-
-                    <button
-                        type="button"
-                        aria-label="Number 2"
-                        onclick="addNumber('2')"
-                    >
-                        2
-                    </button>
-
-                    <button
-                        type="button"
-                        aria-label="Number 3"
-                        onclick="addNumber('3')"
-                    >
-                        3
-                    </button>
-
-                    <button
-                        type="button"
-                        aria-label="Number 4"
-                        onclick="addNumber('4')"
-                    >
-                        4
-                    </button>
-
-
-                    <!-- ROW 2 -->
-
-                    <button
-                        type="button"
-                        aria-label="Number 5"
-                        onclick="addNumber('5')"
-                    >
-                        5
-                    </button>
-
-                    <button
-                        type="button"
-                        aria-label="Number 6"
-                        onclick="addNumber('6')"
-                    >
-                        6
-                    </button>
-
-                    <button
-                        type="button"
-                        aria-label="Number 7"
-                        onclick="addNumber('7')"
-                    >
-                        7
-                    </button>
-
-                    <button
-                        type="button"
-                        aria-label="Number 8"
-                        onclick="addNumber('8')"
-                    >
-                        8
-                    </button>
-
-
-                    <!-- ROW 3 -->
-
-                    <button
-                        type="button"
-                        aria-label="Number 9"
-                        onclick="addNumber('9')"
-                    >
-                        9
-                    </button>
-
-                    <button
-                        type="button"
-                        aria-label="Number 0"
-                        onclick="addNumber('0')"
-                    >
-                        0
-                    </button>
-
-                    <button
-                        type="button"
-                        aria-label="Decimal comma"
-                        onclick="addComma()"
-                    >
-                        ,
-                    </button>
-
-                    <button
-                        type="button"
-                        class="clear-small"
-                        aria-label="Clear calculator"
-                        onclick="clearCalculator()"
-                    >
-                        C
-                    </button>
-
+                    <button type="button" class="clear-small" onclick="clearCalculator()" aria-label="Clear">C</button>
+                    <button type="button" onclick="appendNumber('0')">0</button>
+                    <button type="button" onclick="appendNumber('.')" aria-label="Decimal point">.</button>
+                    <button type="button" onclick="appendNumber(',')" aria-label="Thousand separator">,</button>
                 </div>
 
-
-                <!-- =========================================
-                     SPECIAL OPERATIONS
-                     ========================================= -->
-
-                <div
-                    class="special-buttons"
-                    role="group"
-                    aria-label="Special operations"
-                >
-
-                    <button
-                        type="button"
-                        aria-label="Absolute value"
-                        onclick="absoluteValue()"
-                    >
-                        Absolute Value |x|
-                    </button>
-
-                    <button
-                        type="button"
-                        aria-label="Factorial"
-                        onclick="factorialOperation()"
-                    >
-                        Factorial n!
-                    </button>
-
+                <!-- UNARY & POWER OPERATIONS -->
+                <div class="extra-buttons" role="group" aria-label="Unary operations">
+                    <button type="button" onclick="calculateSquareRoot()" aria-label="Square Root">√x</button>
+                    <button type="button" onclick="calculateSquare()" aria-label="Square">x²</button>
+                    <button type="button" onclick="calculateCube()" aria-label="Cube">x³</button>
+                    <button type="button" onclick="toggleSign()" aria-label="Toggle Sign">±x</button>
                 </div>
 
+                <!-- ARBITRARY POWER FIELD -->
+                <div class="power-field-group">
+                    <label for="powerExponentInput">Exponent (y):</label>
+                    <div class="power-input-row">
+                        <input type="number" id="powerExponentInput" placeholder="Enter power y" step="any">
+                        <button type="button" class="power-btn" onclick="calculateCustomPower()" aria-label="Raise x to power y">x<sup>y</sup></button>
+                    </div>
+                </div>
+
+                <!-- SPECIAL OPERATIONS -->
+                <div class="special-buttons" role="group" aria-label="Special operations">
+                    <button type="button" onclick="calculateAbs()" aria-label="Absolute Value">Absolute Value |x|</button>
+                    <button type="button" onclick="calculateFactorial()" aria-label="Factorial">Factorial x!</button>
+                </div>
+
+                <button type="button" class="equals-button" onclick="calculate()" aria-label="Calculate result">=</button>
             </div>
 
+            <div class="operation-pad" role="group" aria-label="Arithmetic operators">
+                <button type="button" onclick="appendOperator('^')" aria-label="Exponentiation">^</button>
+                <button type="button" onclick="appendOperator('/')" aria-label="Divide">÷</button>
+                <button type="button" onclick="appendOperator('*')" aria-label="Multiply">×</button>
+                <button type="button" onclick="appendOperator('-')" aria-label="Subtract">−</button>
+                <button type="button" onclick="appendOperator('+')" aria-label="Add">+</button>
+            </div>
+        </div>
 
-            <!-- =============================================
-                 BASIC OPERATORS
-                 ============================================= -->
+        <div id="resultBox" class="result" style="display: none;" role="status" aria-live="polite">
+            <span>Result:</span>
+            <span id="resultValue">0</span>
+        </div>
 
-            <div
-                class="operation-pad"
-                role="group"
-                aria-label="Arithmetic operators"
-            >
+        <!-- CSV FUNCTIONALITY -->
+        <div class="csv-section">
+            <h2 class="csv-title">Comma-Separated Value List</h2>
 
-                <button
-                    type="button"
-                    aria-label="Addition"
-                    onclick="storeOperation('+')"
-                >
-                    +
-                </button>
+            <input type="file" id="csvFile" accept=".csv,text/csv" aria-hidden="true" tabindex="-1" style="display: none;">
 
-                <button
-                    type="button"
-                    aria-label="Subtraction"
-                    onclick="storeOperation('-')"
-                >
-                    −
-                </button>
+            <button type="button" class="csv-upload" onclick="document.getElementById('csvFile').click()">
+                Choose CSV File
+            </button>
 
-                <button
-                    type="button"
-                    aria-label="Multiplication"
-                    onclick="storeOperation('*')"
-                >
-                    ×
-                </button>
+            <div id="csvFileName" class="csv-file-name" aria-live="polite">No file selected</div>
 
-                <button
-                    type="button"
-                    aria-label="Division"
-                    onclick="storeOperation('/')"
-                >
-                    ÷
-                </button>
-
-                <button
-                    type="button"
-                    aria-label="Exponentiation"
-                    onclick="storeOperation('^')"
-                >
-                    ^
-                </button>
-
+            <div class="csv-operations">
+                <button type="button" class="csv-operation" onclick="csvSum()">sum()</button>
+                <button type="button" class="csv-operation" onclick="csvSort()">sort()</button>
+                <button type="button" class="csv-operation" onclick="csvReverse()">reverse()</button>
+                <button type="button" class="csv-operation" onclick="csvAverage()">average()</button>
             </div>
 
+            <!-- SPECIFIC ELEMENT REMOVAL FIELD -->
+            <div class="csv-remove-group">
+                <label for="csvRemoveValueInput">Specify Element to Remove:</label>
+                <div class="csv-remove-row">
+                    <input type="number" id="csvRemoveValueInput" placeholder="Enter value to delete" step="any">
+                    <button type="button" class="csv-remove-btn" onclick="csvRemoveSpecified('first')">Remove First Match</button>
+                    <button type="button" class="csv-remove-btn" onclick="csvRemoveSpecified('all')">Remove All Matches</button>
+                </div>
+            </div>
+
+            <div id="csvResult" class="csv-result" aria-live="polite">Select a CSV file to begin.</div>
         </div>
 
+        <!-- ERROR LOGGING & ANALYSIS SECTION -->
+        <div class="log-section">
+            <div class="log-header">
+                <h2 class="log-title">
+                    Error Log System 
+                    <span id="logCountBadge" class="log-badge">0 Errors</span>
+                </h2>
+                <div class="log-controls">
+                    <button type="button" class="btn-toggle-log" onclick="toggleLogViewer()">View Logs</button>
+                    <button type="button" class="btn-download-log" onclick="downloadErrorLogs()">⬇ Download Error Log (CSV)</button>
+                    <button type="button" class="btn-clear-log" onclick="clearErrorLogs()">Clear Logs</button>
+                </div>
+            </div>
 
-        <!-- =============================================
-             OTHER UNARY OPERATIONS
-             ============================================= -->
-
-        <div
-            class="extra-buttons"
-            role="group"
-            aria-label="Unary operations"
-        >
-
-            <button
-                type="button"
-                aria-label="Square root"
-                onclick="unaryOperation('sqrt')"
-            >
-                √x
-            </button>
-
-            <button
-                type="button"
-                aria-label="Square"
-                onclick="unaryOperation('square')"
-            >
-                x²
-            </button>
-
-            <button
-                type="button"
-                aria-label="Negate number"
-                onclick="unaryOperation('negate')"
-            >
-                -x
-            </button>
-
+            <div id="logViewer" class="log-viewer">
+                <em>No errors recorded yet.</em>
+            </div>
         </div>
-
-
-        <!-- =============================================
-             EQUAL BUTTON
-             ============================================= -->
-
-        <button
-            type="button"
-            class="equals-button"
-            aria-label="Calculate result"
-            onclick="calculate()"
-        >
-            =
-        </button>
-
-
-        <!-- =============================================
-             RESULT
-             ============================================= -->
-
-        <div
-            class="result"
-            role="status"
-            aria-live="polite"
-        >
-
-            <span>
-                Result:
-            </span>
-
-            <span id="result">
-                —
-            </span>
-
-        </div>
-
     </section>
 
 </main>
 
-
-<!-- =====================================================
-     JAVASCRIPT
-     ===================================================== -->
-
 <script>
+    let currentExpression = "";
+    let lastOperatorName = "Calculation";
 
-/* =========================================================
-   GLOBAL VARIABLES
-   ========================================================= */
+    /* =========================================================
+       ERROR LOGGING SYSTEM
+       ========================================================= */
+    const errorLogs = [];
 
-let firstNumber = null;
+    function logError(category, message, context = "") {
+        const timestamp = new Date().toISOString().replace('T', ' ').substring(0, 19);
+        const logEntry = {
+            id: errorLogs.length + 1,
+            timestamp: timestamp,
+            category: category,
+            message: message,
+            context: context || currentExpression || "N/A"
+        };
 
-let selectedOperator = null;
+        errorLogs.push(logEntry);
+        updateLogUI();
+    }
 
-let currentNumber = "";
+    function updateLogUI() {
+        const badge = document.getElementById("logCountBadge");
+        const viewer = document.getElementById("logViewer");
 
+        badge.textContent = `${errorLogs.length} ${errorLogs.length === 1 ? 'Error' : 'Errors'}`;
 
-/* =========================================================
-   ADD NUMBER
-   ========================================================= */
-
-function addNumber(number) {
-
-    currentNumber += number;
-
-    updateDisplay();
-
-}
-
-
-/* =========================================================
-   ADD DECIMAL COMMA
-   ========================================================= */
-
-function addComma() {
-
-    if (!currentNumber.includes(",")) {
-
-        if (currentNumber === "") {
-
-            currentNumber = "0";
-
+        if (errorLogs.length === 0) {
+            viewer.innerHTML = "<em>No errors recorded yet.</em>";
+            return;
         }
 
-        currentNumber += ",";
-
+        viewer.innerHTML = errorLogs.slice().reverse().map(log => `
+            <div class="log-entry">
+                <span class="log-time">[${log.timestamp}]</span>
+                <span class="log-cat">[${log.category}]</span>: 
+                ${escapeHTML(log.message)} 
+                <span style="color: #888;">(Context: ${escapeHTML(log.context)})</span>
+            </div>
+        `).join("");
     }
 
-    updateDisplay();
-
-}
-
-
-/* =========================================================
-   UPDATE DISPLAY
-   ========================================================= */
-
-function updateDisplay() {
-
-    const display =
-        document.getElementById(
-            "operationDisplay"
-        );
-
-
-    if (
-        firstNumber !== null &&
-        selectedOperator !== null
-    ) {
-
-        display.textContent =
-            formatNumber(firstNumber)
-            + " "
-            + getOperatorSymbol(
-                selectedOperator
-            )
-            + " "
-            + currentNumber;
-
+    function toggleLogViewer() {
+        const viewer = document.getElementById("logViewer");
+        if (viewer.style.display === "none" || viewer.style.display === "") {
+            viewer.style.display = "block";
+        } else {
+            viewer.style.display = "none";
+        }
     }
 
-    else {
+    function downloadErrorLogs() {
+        if (errorLogs.length === 0) {
+            alert("There are no error logs available to download.");
+            return;
+        }
 
-        display.textContent =
-            currentNumber || "0";
+        let csvContent = "data:text/csv;charset=utf-8,ID,Timestamp,Category,Error Message,Context\n";
 
+        errorLogs.forEach(log => {
+            const row = [
+                log.id,
+                `"${log.timestamp}"`,
+                `"${log.category.replace(/"/g, '""')}"`,
+                `"${log.message.replace(/"/g, '""')}"`,
+                `"${log.context.replace(/"/g, '""')}"`
+            ].join(",");
+            csvContent += row + "\n";
+        });
+
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `calculator_error_log_${Date.now()}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     }
 
-}
-
-
-/* =========================================================
-   STORE OPERATION
-   ========================================================= */
-
-function storeOperation(operator) {
-
-    if (currentNumber === "") {
-
-        updateInfo(
-            "Info: Enter a number first.",
-            "error"
-        );
-
-        return;
-
+    function clearErrorLogs() {
+        errorLogs.length = 0;
+        updateLogUI();
     }
 
-
-    firstNumber =
-        Number(
-            currentNumber.replace(",", ".")
-        );
-
-
-    if (!Number.isFinite(firstNumber)) {
-
-        updateInfo(
-            "Info: Invalid number.",
-            "error"
-        );
-
-        return;
-
+    function escapeHTML(str) {
+        return String(str)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;");
     }
 
+    /* =========================================================
+       CALCULATOR LOGIC
+       ========================================================= */
 
-    selectedOperator = operator;
+    const operationDisplay = document.getElementById("operationDisplay");
+    const resultBox = document.getElementById("resultBox");
+    const resultValue = document.getElementById("resultValue");
 
-    currentNumber = "";
+    const opNames = {
+        '+': 'Addition',
+        '-': 'Subtraction',
+        '*': 'Multiplication',
+        '/': 'Division',
+        '^': 'Exponentiation'
+    };
 
-    updateDisplay();
-
-}
-
-
-/* =========================================================
-   CALCULATE
-   ========================================================= */
-
-function calculate() {
-
-    if (
-        firstNumber === null ||
-        selectedOperator === null
-    ) {
-
-        updateInfo(
-            "Info: Choose a number and an operation first.",
-            "error"
-        );
-
-        return;
-
+    function formatNumberWithCommas(valStr) {
+        if (!valStr) return "0";
+        return valStr.replace(/\d+/g, (match) => {
+            return parseInt(match, 10).toLocaleString('en-US');
+        });
     }
 
-
-    if (currentNumber === "") {
-
-        updateInfo(
-            "Info: Enter the second number.",
-            "error"
-        );
-
-        return;
-
+    function sanitizeExpression(expr) {
+        return expr.replace(/,/g, '');
     }
 
-
-    const secondNumber =
-        Number(
-            currentNumber.replace(",", ".")
-        );
-
-
-    if (!Number.isFinite(secondNumber)) {
-
-        updateInfo(
-            "Info: Invalid second number.",
-            "error"
-        );
-
-        return;
-
+    function updateCalculatorDisplay() {
+        operationDisplay.textContent = formatNumberWithCommas(currentExpression) || "0";
     }
 
+    function appendNumber(value) {
+        if (currentExpression === "0" && value !== "." && value !== ",") {
+            currentExpression = "";
+        }
+        currentExpression += value;
+        updateCalculatorDisplay();
+    }
 
-    let result;
+    function appendOperator(operator) {
+        if (!currentExpression) {
+            const msg = "Choose a number first before adding an operator.";
+            updateInfo(`Info: ${msg}`, "error");
+            logError("Calculator Input", msg);
+            return;
+        }
 
+        const cleanExpr = sanitizeExpression(currentExpression);
+        const lastCharacter = cleanExpr.slice(-1);
+        
+        if ("+-*/^".includes(lastCharacter)) {
+            currentExpression = currentExpression.slice(0, -1);
+        }
 
-    switch (selectedOperator) {
+        currentExpression += operator;
+        lastOperatorName = opNames[operator] || "Calculation";
+        updateCalculatorDisplay();
+    }
 
-        case "+":
+    function deleteLastChar() {
+        if (currentExpression.length > 0) {
+            currentExpression = currentExpression.slice(0, -1);
+            updateCalculatorDisplay();
+        }
+    }
 
-            result =
-                firstNumber + secondNumber;
+    function clearCalculator() {
+        currentExpression = "";
+        lastOperatorName = "Calculation";
+        resultBox.style.display = "none";
+        document.getElementById("powerExponentInput").value = "";
+        updateCalculatorDisplay();
+        updateInfo("Information about the number");
+    }
 
-            break;
+    function calculate() {
+        if (!currentExpression) {
+            const msg = "Choose a number and an operation first.";
+            updateInfo(`Info: ${msg}`, "error");
+            logError("Calculation Error", msg);
+            return;
+        }
 
+        try {
+            const rawExpr = sanitizeExpression(currentExpression);
+            const jsExpression = rawExpr.replace(/\^/g, "**");
+            const result = Function(`"use strict"; return (${jsExpression})`)();
 
-        case "-":
-
-            result =
-                firstNumber - secondNumber;
-
-            break;
-
-
-        case "*":
-
-            result =
-                firstNumber * secondNumber;
-
-            break;
-
-
-        case "/":
-
-            if (secondNumber === 0) {
-
-                updateInfo(
-                    "Info: Division by zero is not allowed.",
-                    "error"
-                );
-
-                document.getElementById(
-                    "result"
-                ).textContent =
-                    "Error";
-
-                return;
-
+            if (!Number.isFinite(result)) {
+                throw new Error("Invalid calculation or division by zero.");
             }
 
-            result =
-                firstNumber / secondNumber;
+            const formatted = formatNumber(result);
+            currentExpression = formatted;
+            updateCalculatorDisplay();
 
-            break;
+            resultValue.textContent = formatNumberWithCommas(formatted);
+            resultBox.style.display = "flex";
 
+            updateInformation(result, lastOperatorName);
 
-        case "^":
+        } catch (error) {
+            const errorMsg = error.message || "Invalid expression.";
+            currentExpression = "";
+            operationDisplay.textContent = "Error";
+            resultBox.style.display = "none";
+            updateInfo("Info: The calculation resulted in an error.", "error");
+            logError("Math Execution", errorMsg);
+        }
+    }
 
-            result =
-                Math.pow(
-                    firstNumber,
-                    secondNumber
-                );
+    function updateInformation(result, opName = "Calculation") {
+        const info = document.getElementById("info");
+        info.className = "big";
 
-            break;
+        let text = "";
+        if (result < 100) {
+            text = "less than 100";
+        } else if (result >= 100 && result <= 200) {
+            text = "between 100 and 200";
+        } else {
+            text = "greater than 200";
+        }
 
+        info.textContent = `Operation: ${opName}. Result is ${text}.`;
+    }
 
-        default:
+    function updateInfo(message, type = "") {
+        const info = document.getElementById("info");
+        info.className = "big";
+        if (type !== "") {
+            info.classList.add(type);
+        }
+        info.textContent = message;
+    }
 
-            updateInfo(
-                "Info: Unknown operation.",
-                "error"
-            );
+    function evaluateCurrent() {
+        if (!currentExpression) return null;
+        try {
+            const rawExpr = sanitizeExpression(currentExpression);
+            const jsExpression = rawExpr.replace(/\^/g, "**");
+            const val = Function(`"use strict"; return (${jsExpression})`)();
+            return Number.isFinite(val) ? val : null;
+        } catch {
+            return null;
+        }
+    }
 
+    /* CUSTOM POWER OPERATION (x^y) */
+    function calculateCustomPower() {
+        const baseVal = evaluateCurrent();
+        if (baseVal === null) {
+            const msg = "Enter a valid base number first.";
+            updateInfo(`Info: ${msg}`, "error");
+            logError("Power Operation", msg);
             return;
-    }
-
-
-    if (!Number.isFinite(result)) {
-
-        updateInfo(
-            "Info: The result is not valid.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    /*
-     * Keep the operation visible.
-     *
-     * Example:
-     *
-     * 80 - 9
-     *
-     * The "=" is not shown.
-     */
-
-    document.getElementById(
-        "operationDisplay"
-    ).textContent =
-        formatNumber(firstNumber)
-        + " "
-        + getOperatorSymbol(
-            selectedOperator
-        )
-        + " "
-        + formatNumber(secondNumber);
-
-
-    /*
-     * Show result outside the calculator display.
-     */
-
-    document.getElementById(
-        "result"
-    ).textContent =
-        formatNumber(result);
-
-
-    /*
-     * Update information.
-     */
-
-    updateInformation(result);
-
-
-    /*
-     * Store result for next operation.
-     */
-
-    currentNumber =
-        formatNumber(result);
-
-    firstNumber = null;
-
-    selectedOperator = null;
-
-}
-
-
-/* =========================================================
-   OPERATOR SYMBOLS
-   ========================================================= */
-
-function getOperatorSymbol(operator) {
-
-    switch (operator) {
-
-        case "+":
-
-            return "+";
-
-        case "-":
-
-            return "−";
-
-        case "*":
-
-            return "×";
-
-        case "/":
-
-            return "÷";
-
-        case "^":
-
-            return "^";
-
-        default:
-
-            return operator;
-    }
-
-}
-
-
-/* =========================================================
-   INFORMATION FIELD
-   ========================================================= */
-
-function updateInformation(result) {
-
-    const info =
-        document.getElementById(
-            "info"
-        );
-
-
-    info.className = "big";
-
-
-    if (result < 100) {
-
-        info.textContent =
-            "Info: The result is less than 100";
-
-    }
-
-    else if (
-        result >= 100 &&
-        result <= 200
-    ) {
-
-        info.textContent =
-            "Info: The result is between 100 and 200";
-
-    }
-
-    else {
-
-        info.textContent =
-            "Info: The result is greater than 200";
-
-    }
-
-}
-
-
-/* =========================================================
-   GENERIC INFORMATION MESSAGE
-   ========================================================= */
-
-function updateInfo(message, type = "") {
-
-    const info =
-        document.getElementById(
-            "info"
-        );
-
-
-    info.className = "big";
-
-
-    if (type !== "") {
-
-        info.classList.add(type);
-
-    }
-
-
-    info.textContent = message;
-
-}
-
-
-/* =========================================================
-   UNARY OPERATIONS
-   ========================================================= */
-
-function unaryOperation(operation) {
-
-    if (currentNumber === "") {
-
-        updateInfo(
-            "Info: Enter a number first.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    const number =
-        Number(
-            currentNumber.replace(",", ".")
-        );
-
-
-    if (!Number.isFinite(number)) {
-
-        updateInfo(
-            "Info: Invalid number.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    let result;
-
-    let symbol;
-
-
-    switch (operation) {
-
-        case "sqrt":
-
-            if (number < 0) {
-
-                updateInfo(
-                    "Info: Cannot calculate the square root of a negative number.",
-                    "error"
-                );
-
-                return;
-
-            }
-
-            result =
-                Math.sqrt(number);
-
-            symbol = "√";
-
-            break;
-
-
-        case "square":
-
-            result =
-                number * number;
-
-            symbol = "";
-
-            break;
-
-
-        case "negate":
-
-            result =
-                -number;
-
-            symbol = "-";
-
-            break;
-
-
-        default:
-
-            updateInfo(
-                "Info: Unknown operation.",
-                "error"
-            );
-
+        }
+
+        const expInput = document.getElementById("powerExponentInput").value;
+        if (expInput === "") {
+            const msg = "Please enter an exponent (y) in the second field.";
+            updateInfo(`Info: ${msg}`, "error");
+            logError("Power Operation", msg, `Base: ${baseVal}, Exponent: [Empty]`);
             return;
+        }
+
+        const exponentVal = Number(expInput);
+        if (!Number.isFinite(exponentVal)) {
+            const msg = "Exponent must be a valid number.";
+            updateInfo(`Info: ${msg}`, "error");
+            logError("Power Operation", msg, `Exponent Input: ${expInput}`);
+            return;
+        }
+
+        const res = Math.pow(baseVal, exponentVal);
+        if (!Number.isFinite(res)) {
+            const msg = "Calculation resulted in an invalid power result (e.g. overflow).";
+            updateInfo(`Info: ${msg}`, "error");
+            logError("Power Operation", msg, `${baseVal}^${exponentVal}`);
+            return;
+        }
+
+        const formatted = formatNumber(res);
+        currentExpression = formatted;
+        updateCalculatorDisplay();
+
+        resultValue.textContent = formatNumberWithCommas(formatted);
+        resultBox.style.display = "flex";
+
+        updateInformation(res, `Exponentiation (${baseVal}^${exponentVal})`);
     }
 
-
-    if (!Number.isFinite(result)) {
-
-        updateInfo(
-            "Info: The result is not valid.",
-            "error"
-        );
-
-        return;
-
+    function calculateSquareRoot() {
+        const val = evaluateCurrent();
+        if (val === null || val < 0) {
+            const msg = "Cannot calculate square root of a negative or invalid number.";
+            updateInfo(`Info: ${msg}`, "error");
+            logError("Unary Operation", msg, `Value: ${val}`);
+            return;
+        }
+        const res = Math.sqrt(val);
+        currentExpression = formatNumber(res);
+        updateCalculatorDisplay();
+        updateInformation(res, "Square Root");
     }
 
-
-    if (operation === "square") {
-
-        document.getElementById(
-            "operationDisplay"
-        ).textContent =
-            formatNumber(number) + "²";
-
+    function calculateSquare() {
+        const val = evaluateCurrent();
+        if (val === null) {
+            logError("Unary Operation", "Square operation attempted without a valid number.");
+            return;
+        }
+        const res = Math.pow(val, 2);
+        currentExpression = formatNumber(res);
+        updateCalculatorDisplay();
+        updateInformation(res, "Square");
     }
 
-    else {
-
-        document.getElementById(
-            "operationDisplay"
-        ).textContent =
-            symbol +
-            formatNumber(number);
-
+    function calculateCube() {
+        const val = evaluateCurrent();
+        if (val === null) {
+            logError("Unary Operation", "Cube operation attempted without a valid number.");
+            return;
+        }
+        const res = Math.pow(val, 3);
+        currentExpression = formatNumber(res);
+        updateCalculatorDisplay();
+        updateInformation(res, "Cube");
     }
 
-
-    document.getElementById(
-        "result"
-    ).textContent =
-        formatNumber(result);
-
-
-    updateInformation(result);
-
-
-    currentNumber =
-        formatNumber(result);
-
-}
-
-
-/* =========================================================
-   ABSOLUTE VALUE
-   ========================================================= */
-
-function absoluteValue() {
-
-    if (currentNumber === "") {
-
-        updateInfo(
-            "Info: Enter a number first.",
-            "error"
-        );
-
-        return;
-
+    function toggleSign() {
+        const val = evaluateCurrent();
+        if (val === null) {
+            logError("Unary Operation", "Toggle sign attempted without a valid number.");
+            return;
+        }
+        const res = -val;
+        currentExpression = formatNumber(res);
+        updateCalculatorDisplay();
+        updateInformation(res, "Toggle Sign");
     }
 
-
-    const number =
-        Number(
-            currentNumber.replace(",", ".")
-        );
-
-
-    if (!Number.isFinite(number)) {
-
-        updateInfo(
-            "Info: Invalid number.",
-            "error"
-        );
-
-        return;
-
+    function calculateAbs() {
+        const val = evaluateCurrent();
+        if (val === null) {
+            logError("Unary Operation", "Absolute value attempted without a valid number.");
+            return;
+        }
+        const res = Math.abs(val);
+        currentExpression = formatNumber(res);
+        updateCalculatorDisplay();
+        updateInformation(res, "Absolute Value");
     }
 
-
-    const result =
-        Math.abs(number);
-
-
-    document.getElementById(
-        "operationDisplay"
-    ).textContent =
-        "|" +
-        formatNumber(number) +
-        "|";
-
-
-    document.getElementById(
-        "result"
-    ).textContent =
-        formatNumber(result);
-
-
-    updateInformation(result);
-
-
-    currentNumber =
-        formatNumber(result);
-
-}
-
-
-/* =========================================================
-   FACTORIAL
-   ========================================================= */
-
-function fact(number) {
-
-    if (
-        number < 0 ||
-        !Number.isInteger(number)
-    ) {
-
-        return null;
-
+    function calculateFactorial() {
+        const val = evaluateCurrent();
+        if (val === null || val < 0 || !Number.isInteger(val)) {
+            const msg = "Factorial requires a non-negative integer.";
+            updateInfo(`Info: ${msg}`, "error");
+            logError("Special Operation", msg, `Value: ${val}`);
+            return;
+        }
+        let fact = 1;
+        for (let i = 2; i <= val; i++) fact *= i;
+        currentExpression = formatNumber(fact);
+        updateCalculatorDisplay();
+        updateInformation(fact, "Factorial");
     }
 
-
-    let result = 1;
-
-
-    for (
-        let i = 1;
-        i <= number;
-        i++
-    ) {
-
-        result *= i;
-
-    }
-
-
-    return result;
-
-}
-
-
-/* =========================================================
-   FACTORIAL OPERATION
-   ========================================================= */
-
-function factorialOperation() {
-
-    if (currentNumber === "") {
-
-        updateInfo(
-            "Info: Enter a number first.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    const number =
-        Number(
-            currentNumber.replace(",", ".")
-        );
-
-
-    if (!Number.isFinite(number)) {
-
-        updateInfo(
-            "Info: Invalid number.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    const result =
-        fact(number);
-
-
-    if (result === null) {
-
-        updateInfo(
-            "Info: Factorial requires a non-negative integer.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    document.getElementById(
-        "operationDisplay"
-    ).textContent =
-        formatNumber(number) + "!";
-
-
-    document.getElementById(
-        "result"
-    ).textContent =
-        formatNumber(result);
-
-
-    updateInformation(result);
-
-
-    currentNumber =
-        formatNumber(result);
-
-}
-
-
-/* =========================================================
-   FORMAT NUMBER
-   ========================================================= */
-
-function formatNumber(number) {
-
-    if (!Number.isFinite(number)) {
-
-        return "Error";
-
-    }
-
-
-    return Number(
-        number.toFixed(10)
-    )
-    .toString()
-    .replace(".", ",");
-
-}
-
-
-/* =========================================================
-   CLEAR
-   ========================================================= */
-
-function clearCalculator() {
-
-    firstNumber = null;
-
-    selectedOperator = null;
-
-    currentNumber = "";
-
-
-    document.getElementById(
-        "operationDisplay"
-    ).textContent =
-        "0";
-
-
-    document.getElementById(
-        "result"
-    ).textContent =
-        "—";
-
-
-    updateInfo(
-        "Information about the number"
-    );
-
-}
-
-
-/* =========================================================
-   KEYBOARD SUPPORT
-   ========================================================= */
-
-document.addEventListener(
-    "keydown",
-    function(event) {
+    document.addEventListener("keydown", function(event) {
+        if (event.target.tagName === "INPUT" || event.target.tagName === "TEXTAREA") {
+            return;
+        }
 
         const key = event.key;
 
-
-        /*
-         * Numbers
-         */
-
-        if (
-            key >= "0" &&
-            key <= "9"
-        ) {
-
-            addNumber(key);
-
+        if (!isNaN(key)) {
+            appendNumber(key);
             highlightButton(key);
-
-            return;
-        }
-
-
-        /*
-         * Decimal separator
-         */
-
-        if (
-            key === "." ||
-            key === ","
-        ) {
-
-            addComma();
-
-            return;
-        }
-
-
-        /*
-         * Operators
-         */
-
-        if (
-            key === "+" ||
-            key === "-" ||
-            key === "*" ||
-            key === "/" ||
-            key === "^"
-        ) {
-
-            storeOperation(key);
-
-            return;
-        }
-
-
-        /*
-         * Enter or =
-         */
-
-        if (
-            key === "Enter" ||
-            key === "="
-        ) {
-
+        } else if (key === ".") {
+            appendNumber(".");
+        } else if (key === ",") {
+            appendNumber(",");
+        } else if (["+", "-", "*", "/", "^"].includes(key)) {
+            appendOperator(key);
+        } else if (key === "Enter" || key === "=") {
             event.preventDefault();
-
             calculate();
-
-            return;
-        }
-
-
-        /*
-         * Escape or Delete
-         */
-
-        if (
-            key === "Escape" ||
-            key === "Delete"
-        ) {
-
+        } else if (key === "Backspace") {
+            deleteLastChar();
+        } else if (key === "Escape" || key === "Delete") {
             clearCalculator();
+        }
+    });
 
+    function highlightButton(value) {
+        const buttons = document.querySelectorAll(".number-pad button");
+        buttons.forEach(button => {
+            if (button.textContent.trim() === value) {
+                button.classList.add("active");
+                setTimeout(() => button.classList.remove("active"), 150);
+            }
+        });
+    }
+
+    /* CSV FUNCTIONALITY */
+    let csvValues = [];
+
+    document.getElementById("csvFile").addEventListener("change", loadCSV);
+
+    function loadCSV(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        document.getElementById("csvFileName").textContent = file.name;
+        const reader = new FileReader();
+
+        reader.onload = function(event) {
+            try {
+                csvValues = parseCSV(event.target.result);
+                showCSVResult("Loaded values: " + formatValues(csvValues), false);
+            } catch (error) {
+                csvValues = [];
+                showCSVResult(error.message, true);
+                logError("CSV File Upload", error.message, `File: ${file.name}`);
+            }
+        };
+
+        reader.onerror = function() {
+            csvValues = [];
+            const msg = "Unable to read the CSV file.";
+            showCSVResult(msg, true);
+            logError("CSV File Upload", msg, `File: ${file.name}`);
+        };
+
+        reader.readAsText(file);
+    }
+
+    function parseCSV(text) {
+        const cleanedText = text.trim();
+        if (!cleanedText) throw new Error("The CSV file is empty.");
+
+        const values = cleanedText
+            .split(/[\r\n,]+/)
+            .map(value => value.trim())
+            .filter(value => value !== "")
+            .map(value => Number(value));
+
+        if (values.length === 0) throw new Error("No valid values were found in the CSV file.");
+        if (values.some(value => !Number.isFinite(value))) throw new Error("The CSV file contains invalid non-numeric entries.");
+
+        return values;
+    }
+
+    function ensureCSVLoaded() {
+        if (csvValues.length === 0) {
+            const msg = "Please choose a valid CSV file first.";
+            showCSVResult(msg, true);
+            logError("CSV Operation", msg);
+            return false;
+        }
+        return true;
+    }
+
+    function csvSum() {
+        if (!ensureCSVLoaded()) return;
+        const result = csvValues.reduce((total, value) => total + value, 0);
+        showCSVResult("sum() = " + formatNumberWithCommas(formatNumber(result)), false);
+    }
+
+    function csvSort() {
+        if (!ensureCSVLoaded()) return;
+        csvValues.sort((a, b) => a - b);
+        showCSVResult("sort() = " + formatValues(csvValues), false);
+    }
+
+    function csvReverse() {
+        if (!ensureCSVLoaded()) return;
+        csvValues.reverse();
+        showCSVResult("reverse() = " + formatValues(csvValues), false);
+    }
+
+    /* SPECIFIC ELEMENT REMOVAL FUNCTION */
+    function csvRemoveSpecified(mode = 'first') {
+        if (!ensureCSVLoaded()) return;
+
+        const inputValStr = document.getElementById("csvRemoveValueInput").value;
+        if (inputValStr === "") {
+            const msg = "Please enter a value to remove.";
+            showCSVResult(msg, true);
+            logError("CSV Removal", msg);
             return;
         }
 
-
-        /*
-         * Backspace
-         */
-
-        if (key === "Backspace") {
-
-            currentNumber =
-                currentNumber.slice(
-                    0,
-                    -1
-                );
-
-            updateDisplay();
-
+        const targetValue = Number(inputValStr);
+        if (!Number.isFinite(targetValue)) {
+            const msg = "Please enter a valid numeric value for removal.";
+            showCSVResult(msg, true);
+            logError("CSV Removal", msg, `Input: ${inputValStr}`);
+            return;
         }
 
-    }
-);
-
-
-/* =========================================================
-   HIGHLIGHT RECENTLY PRESSED BUTTON
-   ========================================================= */
-
-function highlightButton(value) {
-
-    const buttons =
-        document.querySelectorAll(
-            ".number-pad button"
-        );
-
-
-    buttons.forEach(
-        function(button) {
-
-            if (
-                button.textContent.trim()
-                === value
-            ) {
-
-                button.classList.add(
-                    "active"
-                );
-
-
-                setTimeout(
-                    function() {
-
-                        button.classList.remove(
-                            "active"
-                        );
-
-                    },
-                    150
-                );
-
+        if (mode === 'first') {
+            const index = csvValues.indexOf(targetValue);
+            if (index !== -1) {
+                csvValues.splice(index, 1);
+                showCSVResult(`Removed first occurrence of (${targetValue}) = ` + formatValues(csvValues), false);
+            } else {
+                const msg = `Value (${targetValue}) not found in list.`;
+                showCSVResult(msg, true);
+                logError("CSV Removal", msg, `Target: ${targetValue}`);
             }
+        } else if (mode === 'all') {
+            const initialLength = csvValues.length;
+            csvValues = csvValues.filter(val => val !== targetValue);
+            const removedCount = initialLength - csvValues.length;
 
+            if (removedCount > 0) {
+                showCSVResult(`Removed ${removedCount} occurrence(s) of (${targetValue}) = ` + formatValues(csvValues), false);
+            } else {
+                const msg = `Value (${targetValue}) not found in list.`;
+                showCSVResult(msg, true);
+                logError("CSV Removal", msg, `Target: ${targetValue}`);
+            }
         }
-    );
+    }
 
-}
+    function csvAverage() {
+        if (!ensureCSVLoaded()) return;
+        const sum = csvValues.reduce((total, value) => total + value, 0);
+        const average = sum / csvValues.length;
+        showCSVResult("average() = " + formatNumberWithCommas(formatNumber(average)), false);
+    }
 
+    function showCSVResult(message, isError) {
+        const resultElement = document.getElementById("csvResult");
+        resultElement.textContent = message;
+        resultElement.classList.toggle("error", isError);
+        resultElement.classList.toggle("success", !isError);
+    }
+
+    function formatValues(values) {
+        if (values.length === 0) return "[]";
+        return values.map(value => formatNumberWithCommas(formatNumber(value))).join(", ");
+    }
+
+    function formatNumber(value) {
+        return Number(value.toFixed(10)).toString();
+    }
 </script>
 
 </body>
-
 </html>
