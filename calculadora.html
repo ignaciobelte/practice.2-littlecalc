@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Little Calculator</title>
     <style>
-        /* =========================================================
-           GENERAL
-           ========================================================= */
 
         * {
             box-sizing: border-box;
@@ -32,11 +29,6 @@
             padding: 50px 20px;
         }
 
-
-        /* =========================================================
-           MAIN CONTAINER
-           ========================================================= */
-
         .calculator {
             width: 90%;
             max-width: 900px;
@@ -51,11 +43,6 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
         }
 
-
-        /* =========================================================
-           MAIN TITLE
-           ========================================================= */
-
         h1 {
             text-align: center;
             margin-bottom: 30px;
@@ -63,11 +50,6 @@
             font-size: 40px;
             line-height: 1.2;
         }
-
-
-        /* =========================================================
-           INFORMATION FIELD
-           ========================================================= */
 
         .big {
             position: relative;
@@ -109,10 +91,6 @@
         }
 
 
-        /* =========================================================
-           CALCULATOR SECTION
-           ========================================================= */
-
         section {
             position: relative;
             padding: 30px;
@@ -142,21 +120,13 @@
         }
 
 
-        /* =========================================================
-           SECTION TITLE
-           ========================================================= */
-
         section h2 {
             text-align: center;
             margin-bottom: 25px;
             color: #2374ab;
             font-size: 28px;
         }
-
-
-        /* =========================================================
-           CALCULATOR DISPLAY
-           ========================================================= */
+ 
 
         .calculator-screen {
             width: 100%;
@@ -174,10 +144,6 @@
         }
 
 
-        /* =========================================================
-           OPERATION DISPLAY
-           ========================================================= */
-
         .operation-display {
             color: #ffffff;
             font-size: 32px;
@@ -187,10 +153,6 @@
         }
 
 
-        /* =========================================================
-           CALCULATOR LAYOUT
-           ========================================================= */
-
         .calculator-layout {
             display: grid;
             grid-template-columns: 3fr 1fr;
@@ -199,10 +161,6 @@
         }
 
 
-        /* =========================================================
-           NUMBER AREA
-           ========================================================= */
-
         .number-area {
             display: flex;
             flex-direction: column;
@@ -210,20 +168,12 @@
         }
 
 
-        /* =========================================================
-           NUMBER PAD
-           ========================================================= */
-
         .number-pad {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 12px;
         }
 
-
-        /* =========================================================
-           GENERAL BUTTON
-           ========================================================= */
 
         button {
             font-family: Arial, Helvetica, sans-serif;
@@ -241,10 +191,6 @@
             outline-offset: 3px;
         }
 
-
-        /* =========================================================
-           NUMBER BUTTONS
-           ========================================================= */
 
         .number-pad button {
             height: 62px;
@@ -271,10 +217,6 @@
         }
 
 
-        /* =========================================================
-           CLEAR BUTTON
-           ========================================================= */
-
         .number-pad .clear-small {
             background: #fff1f1;
             color: #c0392b;
@@ -287,10 +229,6 @@
             border-color: #c0392b;
         }
 
-
-        /* =========================================================
-           OPERATION BUTTONS
-           ========================================================= */
 
         .operation-pad {
             display: grid;
@@ -320,10 +258,6 @@
             transform: translateY(0) scale(0.96);
         }
 
-
-        /* =========================================================
-           ARBITRARY POWER FIELD (x^y)
-           ========================================================= */
 
         .power-field-group {
             display: flex;
@@ -380,10 +314,6 @@
         }
 
 
-        /* =========================================================
-           SPECIAL OPERATIONS
-           ========================================================= */
-
         .special-buttons {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -414,11 +344,6 @@
             box-shadow: 0 10px 25px rgba(35, 116, 171, 0.25);
         }
 
-
-        /* =========================================================
-           EXTRA UNARY OPERATIONS (√x, x², x³, ±x)
-           ========================================================= */
-
         .extra-buttons {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -442,10 +367,6 @@
             transform: translateY(-2px);
         }
 
-
-        /* =========================================================
-           EQUAL BUTTON & RESULT
-           ========================================================= */
 
         .equals-button {
             width: 100%;
@@ -484,9 +405,6 @@
         }
 
 
-        /* =========================================================
-           CSV SECTION
-           ========================================================= */
 
         .csv-section {
             margin-top: 35px;
@@ -539,7 +457,6 @@
             color: #ffffff;
         }
 
-        /* CSV REMOVE SECTION */
         .csv-remove-group {
             display: flex;
             flex-direction: column;
@@ -619,9 +536,6 @@
             background: #f4fff6;
         }
 
-        /* =========================================================
-           ERROR LOGGING & ANALYSIS SECTION
-           ========================================================= */
 
         .log-section {
             margin-top: 35px;
@@ -743,7 +657,6 @@
 
     <h1>Little Calculator</h1>
 
-    <!-- INFORMATION FIELD ABOUT RESULTS AND ERRORS -->
     <h2 id="info" class="big" title="Information about the number" aria-live="polite">
         Information about the number
     </h2>
@@ -757,7 +670,6 @@
 
         <div class="calculator-layout">
             <div class="number-area">
-                <!-- NUMBERS IN ORDER (1-9, C, 0, ., ,) -->
                 <div class="number-pad" role="group" aria-label="Number buttons">
                     <button type="button" onclick="appendNumber('1')">1</button>
                     <button type="button" onclick="appendNumber('2')">2</button>
@@ -777,7 +689,6 @@
                     <button type="button" onclick="appendNumber(',')" aria-label="Thousand separator">,</button>
                 </div>
 
-                <!-- UNARY & POWER OPERATIONS -->
                 <div class="extra-buttons" role="group" aria-label="Unary operations">
                     <button type="button" onclick="calculateSquareRoot()" aria-label="Square Root">√x</button>
                     <button type="button" onclick="calculateSquare()" aria-label="Square">x²</button>
@@ -785,7 +696,6 @@
                     <button type="button" onclick="toggleSign()" aria-label="Toggle Sign">±x</button>
                 </div>
 
-                <!-- ARBITRARY POWER FIELD -->
                 <div class="power-field-group">
                     <label for="powerExponentInput">Exponent (y):</label>
                     <div class="power-input-row">
@@ -794,7 +704,6 @@
                     </div>
                 </div>
 
-                <!-- SPECIAL OPERATIONS -->
                 <div class="special-buttons" role="group" aria-label="Special operations">
                     <button type="button" onclick="calculateAbs()" aria-label="Absolute Value">Absolute Value |x|</button>
                     <button type="button" onclick="calculateFactorial()" aria-label="Factorial">Factorial x!</button>
@@ -817,7 +726,6 @@
             <span id="resultValue">0</span>
         </div>
 
-        <!-- CSV FUNCTIONALITY -->
         <div class="csv-section">
             <h2 class="csv-title">Comma-Separated Value List</h2>
 
@@ -836,7 +744,6 @@
                 <button type="button" class="csv-operation" onclick="csvAverage()">average()</button>
             </div>
 
-            <!-- SPECIFIC ELEMENT REMOVAL FIELD -->
             <div class="csv-remove-group">
                 <label for="csvRemoveValueInput">Specify Element to Remove:</label>
                 <div class="csv-remove-row">
@@ -849,7 +756,6 @@
             <div id="csvResult" class="csv-result" aria-live="polite">Select a CSV file to begin.</div>
         </div>
 
-        <!-- ERROR LOGGING & ANALYSIS SECTION -->
         <div class="log-section">
             <div class="log-header">
                 <h2 class="log-title">
@@ -875,9 +781,6 @@
     let currentExpression = "";
     let lastOperatorName = "Calculation";
 
-    /* =========================================================
-       ERROR LOGGING SYSTEM
-       ========================================================= */
     const errorLogs = [];
 
     function logError(category, message, context = "") {
@@ -964,10 +867,6 @@
             .replace(/>/g, "&gt;")
             .replace(/"/g, "&quot;");
     }
-
-    /* =========================================================
-       CALCULATOR LOGIC
-       ========================================================= */
 
     const operationDisplay = document.getElementById("operationDisplay");
     const resultBox = document.getElementById("resultBox");
@@ -1113,7 +1012,6 @@
         }
     }
 
-    /* CUSTOM POWER OPERATION (x^y) */
     function calculateCustomPower() {
         const baseVal = evaluateCurrent();
         if (baseVal === null) {
@@ -1270,7 +1168,6 @@
         });
     }
 
-    /* CSV FUNCTIONALITY */
     let csvValues = [];
 
     document.getElementById("csvFile").addEventListener("change", loadCSV);
@@ -1347,7 +1244,6 @@
         showCSVResult("reverse() = " + formatValues(csvValues), false);
     }
 
-    /* SPECIFIC ELEMENT REMOVAL FUNCTION */
     function csvRemoveSpecified(mode = 'first') {
         if (!ensureCSVLoaded()) return;
 
